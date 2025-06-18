@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="menu-nav menu-toggle" id="menu-toggle">
-                        <a href="{{ url_for('home')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+                        <a href="{{ url_for('dashboard')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
                     </div>
                     <ul class="nav" id="menu-list">
                         <li><a href="">Home</a></li>
@@ -34,7 +34,7 @@
                                 Michelle Nhengu
                             </a>
                             <ul>
-                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
                             <li><a href="#" class="logout">Logout</a></li>
 
                         </ul>
@@ -44,191 +44,104 @@
             </header>
 
         </div>
-         <div class="trending-section">
-        <h2>Trending</h2>
-        <div class="scroll-wrapper">
-            <button class="scroll-btn left" onclick="scrollLeft()">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div class="image-scroll-bar" id="scrollBar">
-                <div class="post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img6.jpeg')}}" class="scroll-img"  alt="img6"></a>
-                    <div>
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                    </div>
-                </div>
-
-                <div class="post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img7.jpeg') }}" class="scroll-img" alt="img7"></a>
-                    <div>
-                        <h4>Title </h4>
-                        <p>author-date</p>
-                    </div>
-                </div>
-
-                <div class="post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img8.jpeg') }}" class="scroll-img"  alt="img8"></a>
-                    <div>
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                    </div>
+       <div class="trending-section">
+    <h2>Trending</h2>
+    <div class="scroll-wrapper">
+        <button class="scroll-btn left" onclick="scrollLeft()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="image-scroll-bar" id="scrollBar">
+            {% for post in trending_posts %}
+            <div class="post-container">
+                <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" class="scroll-img" alt="{{ post.title }}"></a>
+                <div>
+                    <h4>{{ post.title }}</h4>
+                    <p>{{ post.author }} - {{ post.date }}</p>
                 </div>
             </div>
-            <button class="scroll-btn right" onclick="scrollRight()">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+            {% endfor %}
         </div>
-         </div>
-        {% if ad_exists %}
-        <div id="ad-banner" class="ad-banner">
-            <!-- You can insert an image or script tag for the ad here -->
-            <img src="{{ url_for('static', filename='images/ad-placeholder.jpg') }}" alt="Ad Banner">
-          </div>
-          {% endif %}
+        <button class="scroll-btn right" onclick="scrollRight()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
 
+ {% if ad_exists %}
+<div id="ad-banner" class="ad-banner">
+    <img src="{{ url_for('static', filename='images/ad-placeholder.jpg') }}" alt="Ad Banner">
+</div>
+{% endif %}
+ 
      <section class="highlights">
-        <h2>Highlights</h2>
-         <div class="post-grid " > 
-            <div class="main-post image-overlay-container">
-                <a href="#">
-                <img src="{{ url_for('static', filename='images/img7.jpeg')}}" class="highlight-post-img"  alt="highlight-post"></a>
-                <div class="overlay-text">
-                    <h3>Title</h3>
-                    <h5>Michelle Nhengu - date</h5>
-                </div>
+    <h2>Highlights</h2>
+    <div class="post-grid">
+        {% if highlight_main %}
+        <div class="main-post image-overlay-container">
+            <a href="#">
+                <img src="{{ url_for('static', filename='images/' + highlight_main.image_filename) }}" class="highlight-post-img" alt="{{ highlight_main.title }}">
+            </a>
+            <div class="overlay-text">
+                <h3>{{ highlight_main.title }}</h3>
+                <h5>{{ highlight_main.author }} - {{ highlight_main.date }}</h5>
             </div>
-            <!-- Additional smaller posts -->
-            <div class="small-post"><a href="#">
-                <img src="{{ url_for('static', filename='images/img1.jpeg')}}" alt="img1" ></a>
-                 <div class="small-overlay-text">
-                <h3>Title</h3>
-                <h5>author - date</h5>
-            </div></div>
-
-             <div class="small-post"><a href="#">
-              <img src="{{ url_for('static', filename='images/img2.jpeg')}}"  alt="img2" ></a>
-                 <div class="small-overlay-text">
-                <h3>Title</h3>
-                <h5>author - date</h5>
-            </div></div>
-
-            <div class="small-post"><a href="#">
-                <img src="{{ url_for('static', filename='images/img3.jpeg')}}" alt="img3" ></a>
-                <div class="small-overlay-text">
-                <h3>Title</h3>
-                <h5>author - date</h5>
-            </div></div>
-            <div class="small-post"><a href="#">
-                <img src="{{ url_for('static', filename='images/img4.jpeg')}}" alt="img4" ></a>
-                <div class="small-overlay-text">
-                    <h3>Title</h3>
-                    <h5>author - date</h5>
-                </div></div>
-            
-            <div class="small-post"><a href="#">
-                <img src="{{ url_for('static', filename='images/img5.jpeg')}}"  alt="img5" ></a>
-                <div class="small-overlay-text">
-                    <h3>Title</h3>
-                     <h5>author - date</h5>
+            {% endif%}
+        </div>
+        {% for post in highlight_smalls %}
+        <div class="small-post">
+            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="{{ post.title }}"></a>
+            <div class="small-overlay-text">
+                <h3>{{ post.title }}</h3>
+                <h5>{{ post.author }} - {{ post.date }}</h5>
             </div>
         </div>
-         </div>
-        </section>
-   
-        
-            <h2>Recent Posts</h2>
-         <div class="recent-posts-section">
-             <div class="recent-posts">
-                <div class="recent-post-container">
-                    <div><img src="{{ url_for('static', filename='images/img9.jpeg')}}" class="recent-post-img"  alt="img9"></div>
-                    <div class="text">
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                        <p>description</p>
-                        <button>Read More</button>
-                    </div>
-                </div>
+        {% endfor %}
+    </div>
+</section>
 
-                <div class="recent-post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img10.jpeg')}}" class="recent-post-img"  alt="img10"></a>
-                    <div class="text">
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                        <p>description</p>
-                        <button>Read More</button>
-                    </div>
-                </div>
-
-                <div class="recent-post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img11.jpeg')}}" class="recent-post-img" alt="img11"></a>
-                    <div class="text">
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                        <p>description</p>
-                        <button>Read More</button>
-                    </div>
-                </div>
-
-                <div class="recent-post-container">
-                    <a href="#"><img src="{{ url_for('static', filename='images/img12.jpeg')}}" class="recent-post-img"  alt="img12"></a>
-                    <div class="text">
-                        <h4>Title</h4>
-                        <p>author-date</p>
-                        <p>description</p>
-                        <button>Read More</button>
-                    </div>
-                </div>
+    <h2>Recent Posts</h2>
+<div class="recent-posts-section">
+    <div class="recent-posts">
+        {% for post in recent_posts %}
+        <div class="recent-post-container">
+            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" class="recent-post-img" alt="{{ post.title }}"></a>
+            <div class="text">
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.author }} - {{ post.date }}</p>
+                <p>{{ post.description }}</p>
+                <button>Read More</button>
             </div>
-            <div> <div class="events">
-                <h3>Events</h3>
-                <p>By Michelle Nhengu - date</p>
-                <p>description</p>
-                <button>Register Now 
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        
-            <div class="topics">
-                <h3>Topics</h3>
-                  <a href="">
-                      AI
-                  </a>
-                  <a href="">
-                      Cybersecurity
-                  </a>
-                  <a href="">
-                      Machine Learning
-                  </a>
-                  <a href="">
-                   conferences
-                  </a>
-                  <a href="">
-                      Simulations
-                  </a>
-              </div> 
-            </div>
-            </div>
-        <div class="products">
-            <div class="product-container">
-                <img src="{{ url_for('static', filename='images/img13.jpeg')}}" class="recent-post-img"  alt="img13">
-                    <a href="#"></a><p>description</p></a>
-            </div>
-            <div class="product-container">
-                <img src="{{ url_for('static', filename='images/img14.jpeg')}}" class="recent-post-img"  alt="img14">
-                <a href="#"></a><p>description</p></a>
-            </div>
-            <div class="product-container">
-                <img src="{{ url_for('static', filename='images/img15.jpeg')}}" class="recent-post-img"  alt="img15">
-                <a href="#"></a><p>description</p></a>
-            </div>
-            <div class="product-container">
-                <img src="{{ url_for('static', filename='images/img16.jpeg')}}" class="recent-post-img"  alt="img16">
-                <a href="#"></a><p>description</p></a>
-            </div>
-            
         </div>
-        
+        {% endfor %}
+    </div>
+     
+        <div>
+        <div class="events">
+            <h3>Events</h3>
+            <p>By Michelle Nhengu - {{ event.date }}</p>
+            <p>{{ event.description }}</p>
+            <button>Register Now <i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="topics">
+            <h3>Topics</h3>
+            {% for topic in topics %}
+            <a href="#">{{ topic }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="products">
+    {% for product in products %}
+    <div class="product-container">
+        <img src="{{ url_for('static', filename='images/' + product.image_filename) }}" class="recent-post-img" alt="{{ product.title }}">
+        <a href="#"><p>{{ product.description }}</p></a>
+    </div>
+    {% endfor %}
+</div>
+
+            
         <div class="footer-container">
            
                

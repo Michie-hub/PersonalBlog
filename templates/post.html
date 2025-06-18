@@ -1,0 +1,13 @@
+<h2>Create New Post</h2>
+<form method="post">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <input type="text" name="image" placeholder="Image_filename (e.g., images/img1.jpeg)" required>
+    <select name="category">
+        <option value="trending">Trending</option>
+        <option value="highlight">Highlight</option>
+        <option value="recent">Recent</option>
+    </select>
+    <textarea name="content" placeholder="Post content" required></textarea>
+    <button type="submit">Create</button>
+</form>
