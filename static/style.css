@@ -17,7 +17,7 @@ body {
 header {
   background-color: #0097b2;
   height: 64px;
-  overflow: hidden;
+  
 }
 
 header * {
@@ -43,7 +43,7 @@ header ul li ul {
   display: none;
 }
 
-header ul li:show-dropdown ul {
+header ul li.show-dropdown ul {
   display: block;
 }
 header ul li ul li {
