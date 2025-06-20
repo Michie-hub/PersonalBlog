@@ -72,8 +72,7 @@
     <img src="{{ url_for('static', filename='images/ad-placeholder.jpg') }}" alt="Ad Banner">
 </div>
 {% endif %}
- 
-     <section class="highlights">
+ <section class="highlights">
     <h2>Highlights</h2>
     <div class="post-grid">
         {% if highlight_main %}
@@ -85,8 +84,9 @@
                 <h3>{{ highlight_main.title }}</h3>
                 <h5>{{ highlight_main.author }} - {{ highlight_main.date }}</h5>
             </div>
-            {% endif%}
         </div>
+        {% endif %}
+
         {% for post in highlight_smalls %}
         <div class="small-post">
             <a href="#"><img src="{{ url_for('static', filename='images/' + post.image) }}" alt="{{ post.title }}"></a>
@@ -98,6 +98,7 @@
         {% endfor %}
     </div>
 </section>
+
 
     <h2>Recent Posts</h2>
 <div class="recent-posts-section">

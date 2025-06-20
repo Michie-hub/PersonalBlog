@@ -3,11 +3,20 @@
     <input type="text" name="title" placeholder="Title" required>
     <input type="text" name="author" placeholder="Author" required>
     <input type="file" name="image" accept="image/*" required>
-    <select name="category">
+    
+    <select name="category" id="category-select" required>
         <option value="trending">Trending</option>
         <option value="highlight">Highlights</option>
         <option value="recent">Recent</option>
+        <option value="products">Products</option>
     </select>
+
+     <div id="highlight-options" style="display: none; margin-top: 10px;">
+    <label>Select Highlight Type:</label><br>
+    <input type="radio" name="highlight_type" value="main"> Main Highlight<br>
+    <input type="radio" name="highlight_type" value="small"> Small Highlight<br>
+  </div>
+
     <textarea name="content" placeholder="Post content" required></textarea>
     <button type="submit">Create</button>
 </form>

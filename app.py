@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os 
 from werkzeug.utils import secure_filename
+from flask_migrate import Migrate
 
 app = Flask(__name__)
+app.secret_key = 'i_love_pizza'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/images'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,6 +20,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     category = db.Column(db.String(50))  # trending, highlight, recent
+    highlight_type = db.Column(db.String(10), nullable=True) #main or small
     image = db.Column(db.String(200))    # Path to image in /static/images
 
 @app.route('/')
@@ -24,21 +28,17 @@ def index():
     posts = Post.query.order_by(Post.date.desc()).all()
 
     trending_posts = [p for p in posts if p.category == 'trending']
-    highlight_posts = [p for p in posts if p.category == 'highlight']
     recent_posts = [p for p in posts if p.category == 'recent']
+    highlight_main = next((p for p in posts if p.category == 'highlight' and p.highlight_type == 'main'), None)
+    highlight_smalls = [p for p in posts if p.category == 'highlight' and p.highlight_type == 'small']
 
-    highlight_main = highlight_posts[0] if highlight_posts else None
-    highlight_smalls = highlight_posts[1:] if len(highlight_posts) > 1 else []
+    products = [p for p in posts if p.category == 'products']
 
     # Dummy placeholders for optional sections
     ad_exists = True  # You can implement logic to toggle this
     event = {'date': datetime.utcnow().strftime('%Y-%m-%d'), 'description': 'Tech Conference 2025'}
     topics = ['AI', 'Cybersecurity', 'Web Dev']
-    products = [
-        {'image': 'product1.jpg', 'description': 'Top Tech Gadgets 2025'},
-        {'image': 'product2.jpg', 'description': 'Software Essentials'}
-    ]
-
+   
     return render_template('base.html', 
                            trending_posts=trending_posts, 
                            highlight_main=highlight_main,
@@ -63,11 +63,19 @@ def create_post():
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
 
+            category = request.form.get('category')
+        highlight_type = request.form.get('highlight_type') if category == 'highlight' else None
+
+        if category == 'highlight' and not highlight_type:
+            flash('Please select a highlight type.', 'error')
+            return redirect(request.url)
+
         new_post = Post(
             title=request.form['title'],
             author=request.form['author'],
             content=request.form['content'],
-            category=request.form['category'],
+            category=category,
+            highlight_type=highlight_type,
             image=filename
         )
         db.session.add(new_post)

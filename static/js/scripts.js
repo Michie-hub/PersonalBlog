@@ -18,8 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
         function scrollRight() {
             document.getElementById('scrollBar').scrollBy({ left: 200, behavior: 'smooth' });
         }
-    
-   
+    //highlight toggle
+   document.addEventListener("DOMContentLoaded", function () {
+  const categorySelect = document.getElementById("category-select");
+  const highlightOptions = document.getElementById("highlight-options");
+
+  categorySelect.addEventListener("change", function () {
+    if (categorySelect.value === "highlight") {
+      highlightOptions.style.display = "block";
+    } else {
+      highlightOptions.style.display = "none";
+      // Optional: uncheck radios if not highlight
+      document.querySelectorAll('input[name="highlight_type"]').forEach(r => r.checked = false);
+    }
+  });
+});
+
+
         // 1. Email subscription validation
         document.querySelector('.cta-button').addEventListener('click', function () {
           const email = document.querySelector('.input-box').value;
