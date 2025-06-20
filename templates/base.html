@@ -28,19 +28,19 @@
                         <li><a href="">Services</a></li>
                         <!-- <li><a href="">Sign-in</a></li>
                         <li><a href="">Services</a></li> -->
-                        <li>
+                        <li class="account-menu">
                              <a href="#">
                                 <i class="fa fa-user"></i>
                                 Michelle Nhengu
                             </a>
-                            <ul>
+                            <ul class="dropdown">
                             <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
                             <li><a href="#" class="logout">Logout</a></li>
 
                         </ul>
                     </li>
                    </ul> 
-                </div>
+                
             </header>
 
         </div>
@@ -53,7 +53,7 @@
         <div class="image-scroll-bar" id="scrollBar">
             {% for post in trending_posts %}
             <div class="post-container">
-                <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" class="scroll-img" alt="{{ post.title }}"></a>
+                <a href="#"><img src="{{ url_for('static', filename='images/' + post.image) }}" class="scroll-img" alt="{{ post.title }}"></a>
                 <div>
                     <h4>{{ post.title }}</h4>
                     <p>{{ post.author }} - {{ post.date }}</p>
@@ -79,7 +79,7 @@
         {% if highlight_main %}
         <div class="main-post image-overlay-container">
             <a href="#">
-                <img src="{{ url_for('static', filename='images/' + highlight_main.image_filename) }}" class="highlight-post-img" alt="{{ highlight_main.title }}">
+                <img src="{{ url_for('static', filename='images/' + highlight_main.image) }}" class="highlight-post-img" alt="{{ highlight_main.title }}">
             </a>
             <div class="overlay-text">
                 <h3>{{ highlight_main.title }}</h3>
@@ -89,7 +89,7 @@
         </div>
         {% for post in highlight_smalls %}
         <div class="small-post">
-            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" alt="{{ post.title }}"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image) }}" alt="{{ post.title }}"></a>
             <div class="small-overlay-text">
                 <h3>{{ post.title }}</h3>
                 <h5>{{ post.author }} - {{ post.date }}</h5>
@@ -104,7 +104,7 @@
     <div class="recent-posts">
         {% for post in recent_posts %}
         <div class="recent-post-container">
-            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image_filename) }}" class="recent-post-img" alt="{{ post.title }}"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/' + post.image) }}" class="recent-post-img" alt="{{ post.title }}"></a>
             <div class="text">
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.author }} - {{ post.date }}</p>
@@ -135,7 +135,7 @@
 <div class="products">
     {% for product in products %}
     <div class="product-container">
-        <img src="{{ url_for('static', filename='images/' + product.image_filename) }}" class="recent-post-img" alt="{{ product.title }}">
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" class="recent-post-img" alt="{{ product.title }}">
         <a href="#"><p>{{ product.description }}</p></a>
     </div>
     {% endfor %}

@@ -1,0 +1,23 @@
+<h2>Edit Post</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="title" value="{{ post.title }}" required>
+    <input type="text" name="author" value="{{ post.author }}" required>
+
+ <label>Current Image:</label><br>
+    {% if post.image %}
+        <img src="{{ url_for('static', filename='images/' + post.image) }}" width="150" alt="Current Image"><br>
+        <label><input type="checkbox" name="remove_image"> Remove current image</label><br>
+    {% else %}
+        <p>No image uploaded.</p>
+    {% endif %}
+
+    <input type="text" name="image" value="{{ post.image }}" placeholder="New image filename (optional)">
+
+    <select name="category" required>
+        <option value="trending" {% if post.category == 'trending' %}selected{% endif %}>Trending</option>
+        <option value="highlight" {% if post.category == 'highlight' %}selected{% endif %}>Highlight</option>
+        <option value="recent" {% if post.category == 'recent' %}selected{% endif %}>Recent</option>
+    </select>
+    <textarea name="content" required>{{ post.content }}</textarea>
+    <button type="submit">Update</button>
+</form>

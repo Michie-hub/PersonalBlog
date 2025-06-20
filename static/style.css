@@ -43,7 +43,7 @@ header ul li ul {
   display: none;
 }
 
-header ul li:hover ul {
+header ul li:show-dropdown ul {
   display: block;
 }
 header ul li ul li {

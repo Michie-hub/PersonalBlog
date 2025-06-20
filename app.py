@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os 
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['UPLOAD_FOLDER'] = 'static/images'
 db = SQLAlchemy(app)
 
 class Post(db.Model):
@@ -15,7 +17,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     category = db.Column(db.String(50))  # trending, highlight, recent
-    image_filename = db.Column(db.String(200))    # Path to image in /static/images
+    image = db.Column(db.String(200))    # Path to image in /static/images
 
 @app.route('/')
 def index():
@@ -33,8 +35,8 @@ def index():
     event = {'date': datetime.utcnow().strftime('%Y-%m-%d'), 'description': 'Tech Conference 2025'}
     topics = ['AI', 'Cybersecurity', 'Web Dev']
     products = [
-        {'image_filename': 'product1.jpg', 'description': 'Top Tech Gadgets 2025'},
-        {'image_filename': 'product2.jpg', 'description': 'Software Essentials'}
+        {'image': 'product1.jpg', 'description': 'Top Tech Gadgets 2025'},
+        {'image': 'product2.jpg', 'description': 'Software Essentials'}
     ]
 
     return render_template('base.html', 
@@ -55,12 +57,18 @@ def dashboard():
 @app.route('/create', methods=['GET', 'POST'])
 def create_post():
     if request.method == 'POST':
+        image_file = request.files['image']
+        if image_file and image_file.filename!= '' :
+            filename = secure_filename(image_file.filename)
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)
+
         new_post = Post(
             title=request.form['title'],
             author=request.form['author'],
             content=request.form['content'],
             category=request.form['category'],
-            image_filename=request.form['image_filename']
+            image=filename
         )
         db.session.add(new_post)
         db.session.commit()
@@ -73,6 +81,24 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('dashboard'))
+
+@app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if request.method == 'POST':
+        post.title = request.form['title']
+        post.author = request.form['author']
+        post.content = request.form['content']
+        post.category = request.form['category']
+
+        if 'remove_image' in request.form:
+            post.image = None
+        else:
+            post.image = request.form['image']    
+        
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    return render_template('edit_post.html', post=post)
 
 if __name__ == '__main__':
     with app.app_context():

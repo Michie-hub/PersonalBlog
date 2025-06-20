@@ -1,11 +1,11 @@
 <h2>Create New Post</h2>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <input type="text" name="title" placeholder="Title" required>
     <input type="text" name="author" placeholder="Author" required>
-    <input type="text" name="image" placeholder="Image_filename (e.g., images/img1.jpeg)" required>
+    <input type="file" name="image" accept="image/*" required>
     <select name="category">
         <option value="trending">Trending</option>
-        <option value="highlight">Highlight</option>
+        <option value="highlight">Highlights</option>
         <option value="recent">Recent</option>
     </select>
     <textarea name="content" placeholder="Post content" required></textarea>
