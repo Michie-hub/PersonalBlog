@@ -33,6 +33,7 @@ def index():
     highlight_smalls = [p for p in posts if p.category == 'highlight' and p.highlight_type == 'small']
 
     products = [p for p in posts if p.category == 'products']
+    
 
     # Dummy placeholders for optional sections
     ad_exists = True  # You can implement logic to toggle this
@@ -109,6 +110,11 @@ def edit_post(post_id):
         db.session.commit()
         return redirect(url_for('dashboard'))
     return render_template('edit_post.html', post=post)
+
+@app.route('/post/<int:post_id>')
+def view_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('view_post.html', post=post)
 
 if __name__ == '__main__':
     with app.app_context():

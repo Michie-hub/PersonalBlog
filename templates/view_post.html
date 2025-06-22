@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="post-container">
+        <h1>{{ post.title }}</h1>
+        <p><strong>By:</strong> {{ post.author }} | <strong>On:</strong> {{ post.date.strftime('%B %d, %Y') }}</p>
+        
+        {% if post.image %}
+            <img src="{{ url_for('static', filename='images/' ~ post.image) }}" alt="Post Image" style="max-width: 100%; height: auto;">
+        {% endif %}
+
+        <div class="post-content">
+            <p>{{ post.content }}</p>
+        </div>
+
+        <a href="{{ url_for('index') }}">← Back to Home</a>
+    </div>
+</body>
+</html>
