@@ -20,3 +20,25 @@
     <textarea name="content" placeholder="Post content" required></textarea>
     <button type="submit">Create</button>
 </form>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category-select');
+    const highlightOptions = document.getElementById('highlight-options');
+
+    function toggleHighlightOptions() {
+        if (categorySelect.value === 'highlight') {
+            highlightOptions.style.display = 'block';
+        } else {
+            highlightOptions.style.display = 'none';
+            // Uncheck any selected highlight_type when not highlight
+            const radios = highlightOptions.querySelectorAll('input[name="highlight_type"]');
+            radios.forEach(r => r.checked = false);
+        }
+    }
+
+    categorySelect.addEventListener('change', toggleHighlightOptions);
+
+    // Run on page load too in case it's in POST error state
+    toggleHighlightOptions();
+});
+</script>

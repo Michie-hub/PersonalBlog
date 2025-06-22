@@ -36,7 +36,7 @@ def index():
 
     # Dummy placeholders for optional sections
     ad_exists = True  # You can implement logic to toggle this
-    event = {'date': datetime.utcnow().strftime('%Y-%m-%d'), 'description': 'Tech Conference 2025'}
+    event = {'date': datetime.utcnow(), 'description': 'Tech Conference 2025'}
     topics = ['AI', 'Cybersecurity', 'Web Dev']
    
     return render_template('base.html', 
@@ -58,12 +58,14 @@ def dashboard():
 def create_post():
     if request.method == 'POST':
         image_file = request.files['image']
-        if image_file and image_file.filename!= '' :
+        filename = None
+
+        if image_file and image_file.filename != '' :
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
 
-            category = request.form.get('category')
+        category = request.form.get('category')
         highlight_type = request.form.get('highlight_type') if category == 'highlight' else None
 
         if category == 'highlight' and not highlight_type:
