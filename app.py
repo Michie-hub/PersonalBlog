@@ -13,6 +13,8 @@ app.config['UPLOAD_FOLDER'] = 'static/images'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+ 
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
@@ -23,7 +25,7 @@ class Post(db.Model):
     highlight_type = db.Column(db.String(10), nullable=True) #main or small
     image = db.Column(db.String(200))    # Path to image in /static/images
 
-    class Event(db.Model):
+class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -44,7 +46,7 @@ def index():
 
     # Dummy placeholders for optional sections
     ad_exists = True  # You can implement logic to toggle this
-
+    topics = ['AI', 'Cybersecurity','DevOps']
     return render_template('base.html', 
                            trending_posts=trending_posts, 
                            highlight_main=highlight_main,
@@ -120,6 +122,7 @@ def view_post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('view_post.html', post=post)
 
+    
 @app.route('/events')
 def events():
     upcoming_events = Event.query.order_by(Event.date.asc()).all()
@@ -161,6 +164,6 @@ def delete_event(event_id):
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    #with app.app_context():
+      #  db.create_all()
     app.run(debug=True)
