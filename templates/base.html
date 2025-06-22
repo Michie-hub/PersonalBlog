@@ -121,19 +121,11 @@
      
         <div>
         <div class="events">
-             
-            <h3>Events</h3>
-            <p> By Michelle Nhengu - {% if event['date'] %}{{ event['date'].strftime('%b %d, %Y') }}{% else %}Unknown date{% endif %}</p>
+            <a href="{{ url_for('events') }}">Events</a>
+            <a href="{{ url_for('create_event') }}">Create Event</a>
 
-            <p>{{ event.description }}</p>
-            <button>Register Now <i class="fas fa-chevron-right"></i></button>
-        </div>
-
-        <div class="topics">
-            <h3>Topics</h3>
-            {% for topic in topics %}
-            <a href="#">{{ topic }}</a>
-            {% endfor %}
+            
+           
         </div>
     </div>
 </div>

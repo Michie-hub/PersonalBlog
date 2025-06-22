@@ -23,6 +23,13 @@ class Post(db.Model):
     highlight_type = db.Column(db.String(10), nullable=True) #main or small
     image = db.Column(db.String(200))    # Path to image in /static/images
 
+    class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
+
 @app.route('/')
 def index():
     posts = Post.query.order_by(Post.date.desc()).all()
@@ -37,16 +44,13 @@ def index():
 
     # Dummy placeholders for optional sections
     ad_exists = True  # You can implement logic to toggle this
-    event = {'date': datetime.utcnow(), 'description': 'Tech Conference 2025'}
-    topics = ['AI', 'Cybersecurity', 'Web Dev']
-   
+
     return render_template('base.html', 
                            trending_posts=trending_posts, 
                            highlight_main=highlight_main,
                            highlight_smalls=highlight_smalls,
                            recent_posts=recent_posts,
                            ad_exists=ad_exists,
-                           event=event,
                            topics=topics,
                            products=products)
 
@@ -115,6 +119,46 @@ def edit_post(post_id):
 def view_post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('view_post.html', post=post)
+
+@app.route('/events')
+def events():
+    upcoming_events = Event.query.order_by(Event.date.asc()).all()
+    return render_template('events.html', events=upcoming_events)
+
+@app.route('/create_event', methods=['GET', 'POST'])
+def create_event():
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        date_str = request.form['date']
+        event_date = datetime.strptime(date_str, '%Y-%m-%d')
+
+        new_event = Event(title=title, description=description, date=event_date)
+        db.session.add(new_event)
+        db.session.commit()
+        return redirect(url_for('events'))
+    return render_template('create_event.html')
+
+@app.route('/edit_event/<int:event_id>', methods=['GET', 'POST'])
+def edit_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if request.method == 'POST':
+        event.title = request.form['title']
+        event.description = request.form['description']
+        event.date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+        db.session.commit()
+        return redirect(url_for('events'))
+    return render_template('edit_event.html', event=event)
+
+@app.route('/delete_event/<int:event_id>')
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    db.session.delete(event)
+    db.session.commit()
+    return redirect(url_for('events'))
+
+
+
 
 if __name__ == '__main__':
     with app.app_context():
