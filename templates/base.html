@@ -53,8 +53,11 @@
         <div class="image-scroll-bar" id="scrollBar">
             {% for post in trending_posts %}
             <div class="post-container">
+                {% if post.image %}
                 <a href="{{ url_for('view_post', post_id=post.id) }}"><img src="{{ url_for('static', filename='images/' + post.image) }}" class="scroll-img" alt="{{ post.title }}"></a>
-                <div>
+                {%else%}
+                    <img src="{{ url_for('static', filename='images/default_post.jpeg') }}" width="100">
+                {% endif %}                <div>
                     <h4>{{ post.title }}</h4>
                     <p>{{ post.author }} - {% if post['date'] %}{{ post['date'].strftime('%b %d, %Y') }}{% else %}Unknown date{% endif %}</p>
                 </div>
@@ -201,17 +204,7 @@
                     
                     
                 </div>
-                <div class="quick-links">
-                    <h3>Quick Links</h3>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    
-                    
-                </div>
+                
 
                 <div class="user-input-container">
                    

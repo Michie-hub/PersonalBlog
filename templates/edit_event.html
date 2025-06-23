@@ -1,7 +1,17 @@
 <h1>Edit Event</h1>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   <input type="text" name="title" value="{{ event.title }}" required><br>
   <textarea name="description" required>{{ event.description }}</textarea><br>
   <input type="date" name="date" value="{{ event.date.strftime('%Y-%m-%d') }}" required><br>
+  
+  <label>Current Logo:</label><br>
+    {% if event.logo_url %}
+      <img src="{{ event.logo_url }}" alt="Logo" width="100"><br>
+    {% endif %}
+
+    <label>Upload New Logo (optional):</label><br>
+    <input type="file" name="logo"><br><br>
+ 
+
   <button type="submit">Update Event</button>
 </form>

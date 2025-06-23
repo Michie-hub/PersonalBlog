@@ -27,7 +27,8 @@ class Post(db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow)
     category = db.Column(db.String(50))  # trending, highlight, recent
     highlight_type = db.Column(db.String(10), nullable=True) #main or small
-    image = db.Column(db.String(200))    # Path to image in /static/images
+    image = db.Column(db.String(200), nullable=True, default='default_post.jpeg')
+# Path to image in /static/images
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +70,8 @@ def index():
 @app.route('/dashboard')
 def dashboard():
     posts = Post.query.order_by(Post.date.desc()).all()
-    return render_template('dashboard.html', posts=posts)
+    events = Event.query.order_by(Event.date.asc()).all()
+    return render_template('dashboard.html', posts=posts, events=events)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_post():
@@ -133,10 +135,6 @@ def view_post(post_id):
     return render_template('view_post.html', post=post)
 
     
-@app.route('/events')
-def events():
-    upcoming_events = Event.query.order_by(Event.date.asc()).all()
-    return render_template('events.html', events=upcoming_events)
 
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
@@ -170,6 +168,15 @@ def edit_event(event_id):
         event.title = request.form['title']
         event.description = request.form['description']
         event.date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+       
+        logo = request.files.get('logo')
+        if logo and logo.filename != '' and allowed_file(logo.filename):
+            filename = secure_filename(logo.filename)
+            unique_filename = f"{uuid.uuid4().hex}_{filename}"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+            logo.save(filepath)
+            event.logo_url = f"/{filepath.replace('\\', '/')}"
+
         db.session.commit()
         return redirect(url_for('dashboard'))
     return render_template('edit_event.html', event=event)
