@@ -1,6 +1,7 @@
 <h2>Manage Posts</h2>
 <a href="{{ url_for('index') }}">Home</a>
 <a href="{{ url_for('create_post') }}">Add New Post</a>
+<a href="{{ url_for('create_event') }}">Add New Event</a>
 {% if posts %}
     <ul>
     {% for post in posts %}

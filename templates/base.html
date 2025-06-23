@@ -69,7 +69,7 @@
 
  {% if ad_exists %}
 <div id="ad-banner" class="ad-banner">
-    <img src="{{ url_for('static', filename='images/ad-placeholder.jpg') }}" alt="Ad Banner">
+    <img src="{{ url_for('static', filename='images/ad-placeholder.jpeg') }}" alt="Ad Banner">
 </div>
 {% endif %}
  <section class="highlights">
@@ -120,11 +120,37 @@
     </div>
      
         <div>
-        <div class="events">
-            <a href="{{ url_for('events') }}">Events</a>
-            <a href="{{ url_for('create_event') }}">Create Event</a>
-
+        <div class="events event-carousel-wrapper">
+            <h3>Upcoming Events</h3>
             
+              <div class="event-carousel" id="eventCarousel">
+                {% for event in events %}
+                  <div class="event-card">
+                     {% if event.logo_url %}
+                        <img src="{{ event.logo_url }}" alt="Company Logo" class="event-logo" />
+                    {% endif %}
+                     <h4>{{ event.title }}</h4>
+                     <p>{{ event.description[:60] }}...</p>
+                     <em>{{ event['date'].strftime('%B %d, %Y') }}</em><br>
+                      <a href="{{ url_for('view_event', event_id=event.id) }}"><button>Register Now</button></a>                      
+                     </div>
+                 {% endfor %}
+                 </div>                
+              
+              <div class="event-dots" id="eventDots">
+                {% for event in events %}
+                <span class="dot {% if loop.index0 == 0 %}active{% endif %}" ></span>
+                {% endfor %}
+             </div>
+            </div>
+
+          <div class="topics">
+            <h3>Topics</h3>
+            {% for topic in topics %}
+            <a href="#">{{ topic }}</a>
+            {% endfor %}
+        </div>
+   
            
         </div>
     </div>

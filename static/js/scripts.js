@@ -18,23 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         function scrollRight() {
             document.getElementById('scrollBar').scrollBy({ left: 200, behavior: 'smooth' });
         }
-    //highlight toggle
-   document.addEventListener("DOMContentLoaded", function () {
-  const categorySelect = document.getElementById("category-select");
-  const highlightOptions = document.getElementById("highlight-options");
-
-  categorySelect.addEventListener("change", function () {
-    if (categorySelect.value === "highlight") {
-      highlightOptions.style.display = "block";
-    } else {
-      highlightOptions.style.display = "none";
-      // Optional: uncheck radios if not highlight
-      document.querySelectorAll('input[name="highlight_type"]').forEach(r => r.checked = false);
-    }
-  });
-});
-
-
+ 
         // 1. Email subscription validation
         document.querySelector('.cta-button').addEventListener('click', function () {
           const email = document.querySelector('.input-box').value;
@@ -111,4 +95,30 @@ document.addEventListener("DOMContentLoaded", () => {
     menuList.classList.remove('show');
   });
 });
+
+
+const carousel = document.getElementById("eventCarousel");
+const dots = document.querySelectorAll(".dot");
+
+carousel.addEventListener("scroll", () => {
+  const scrollLeft = carousel.scrollLeft;
+  const width = carousel.clientWidth;
+
+  const index = Math.round(scrollLeft / width);
+  dots.forEach(dot => dot.classList.remove("active"));
+  if (dots[index]) dots[index].classList.add("active");
+});
+
+// Optional: click dot to scroll to card
+dots.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    carousel.scrollTo({
+      left: carousel.clientWidth * index,
+      behavior: "smooth"
+    });
+  });
+});
+
+
+
 console.log("js is working");
