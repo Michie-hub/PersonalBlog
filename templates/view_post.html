@@ -3,15 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ post.title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/e6fd116ded.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="post-container">
-        <h1>{{ post.title }}</h1>
+     <header>
+                    
+
+                    <div class="menu-nav menu-toggle" id="menu-toggle">
+                        <a href="{{ url_for('index')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+                    </div>
+                    <ul class="nav" id="menu-list">
+                        <li><a href="{{ url_for('index')}}">Home</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Services</a></li>
+                        
+                        </ul>
+                    </li>
+                   </ul> 
+                
+            </header>
+ <div class="landing-page"> 
+               
+    {% if ad_exists %}
+    <div id="ad-banner" class="ad-banner">
+        <img src="{{ url_for('static', filename='images/ad-placeholder.jpeg') }}" alt="Ad Banner">
+    </div>
+    {% endif %}
+            
+     
+    <div class="recent-posts-section">
+
+        <div style="margin-left: 10px;"> 
+            <h1>{{ post.title }}</h1>
         <p><strong>By:</strong> {{ post.author }} | <strong>On:</strong> {{ post.date.strftime('%B %d, %Y') }}</p>
         
         {% if post.image %}
-            <img src="{{ url_for('static', filename='images/' ~ post.image) }}" alt="Post Image" style="max-width: 100%; height: auto;">
+            <img src="{{ url_for('static', filename='images/' ~ post.image) }}" alt="Post Image" style="max-width: 100%; height: auto; object-fit: cover; margin-left: 10px;">
         {% endif %}
 
         <div class="post-content">
@@ -20,5 +51,101 @@
 
         <a href="{{ url_for('index') }}">← Back to Home</a>
     </div>
+
+        <div>
+             <div class="events event-carousel-wrapper">
+            <h3>Upcoming Events</h3>
+            
+              <div class="event-carousel" id="eventCarousel">
+                {% for event in events %}
+                  <div class="event-card">
+                     {% if event.logo_url %}
+                        <img src="{{ event.logo_url }}" alt="Company Logo" class="event-logo" />
+                    {% endif %}
+                     <h4>{{ event.title }}</h4>
+                     <p>{{ event.description[:60] }}...</p>
+                     <em>{{ event['date'].strftime('%B %d, %Y') }}</em><br>
+                      <a href="{{ url_for('view_event', event_id=event.id) }}"><button>Register Now</button></a>                      
+                     </div>
+                 {% endfor %}
+                 </div>                
+              
+              <div class="event-dots" id="eventDots">
+                {% for event in events %}
+                <span class="dot {% if loop.index0 == 0 %}active{% endif %}" ></span>
+                {% endfor %}
+             </div>
+            </div>
+
+           <div> {% if ad_exists %}
+            <div id="ad-banner" class="ad-banner">
+                <img src="{{ url_for('static', filename='images/ad-placeholder.jpeg') }}" alt="Ad Banner">
+            </div>
+            {% endif %}
+                    
+            </div>
+            <div class="topics">
+            <h3>Topics</h3>
+            {% for topic in topics %}
+            <a href="#">{{ topic }}</a>
+            {% endfor %}
+             </div>
+   
+            </div>
+        </div>
+    <div class="footer-container">
+            
+                
+                    <div class="about-tech-journal">
+                        <div class="title">
+                            <h1 class="h1-1">Tech</h1>
+                        <h1 class="h1-2">Journal</h1>
+                    </div>
+                    <div class="about">
+                        <p>You can combine two of these (like end-of-post + footer) for better conversion without being annoying. Want a simple design suggestion or code snippet for one of these placements?</p></div>
+                    <div class="telephone"> 
+                        <img src="" alt="icon">
+                        8278474592</div>
+                    <div class="email">
+                        <img src="" alt="icon">
+                        haswehf@gmail.com</div>
+                    <div class="social-media">
+                        <img src="" alt="icon">
+                        <img src="" alt="icon">
+                        <img src="" alt="icon">
+                    </div>
+
+                </div>
+
+                <div class="quick-links">
+                    <h3>Quick Links</h3>
+                    <a href="#">topics</a>
+                    <a href="#">topics</a>
+                    <a href="#">topics</a>
+                    <a href="#">topics</a>
+                    <a href="#">topics</a>
+                    <a href="#">topics</a>
+                    
+                    
+                </div>
+                
+
+                <div class="user-input-container">
+                   
+                    <div class="box">
+                        <h3>Subscribe To Our Newsletter</h3>
+                        <p>Want to keep up to date with our latest news and information? Enter your email below to be added to our mailing list.</p>
+                      <input type="text" placeholder="Enter your email" class="input-box">
+                      <button class="cta-button">Subscribe</button>
+                    </div>
+                    
+                  </div>
+                  
+            
+        </div>
+    
+</div>
+   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
 </body>
 </html>

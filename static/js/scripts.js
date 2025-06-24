@@ -57,25 +57,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       
         // 5. Expandable 'Read More' buttons
-        document.querySelectorAll('.recent-post-container').forEach(container => {
-          const btn = container.querySelector('button');
-          const desc = container.querySelectorAll('p')[1];
-          if (btn && desc) {
-            const fullText = desc.textContent;
-            const shortText = fullText.slice(0, 80) + '...';
-            desc.textContent = shortText;
-      
-            btn.addEventListener('click', () => {
-              if (desc.textContent === shortText) {
-                desc.textContent = fullText;
-                btn.textContent = 'Show Less';
-              } else {
-                desc.textContent = shortText;
-                btn.textContent = 'Read More';
-              }
-            });
-          }
+       
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.recent-post-container').forEach(container => {
+    const btn = container.querySelector('button');
+    const desc = container.querySelector('.text p'); // Get the only <p> inside .text
+
+    if (btn && desc) {
+      const fullText = desc.textContent.trim();
+      const shortText = fullText.length > 80 ? fullText.slice(0, 80) + '...' : fullText;
+      let isShort = true;
+
+      if (fullText.length > 70) {
+        desc.textContent = shortText;
+
+        btn.addEventListener('click', () => {
+          desc.textContent = isShort ? fullText : shortText;
+          btn.textContent = isShort ? 'Show Less' : 'Read More';
+          isShort = !isShort;
         });
+      } else {
+        btn.style.display = 'none'; // Hide button if text is already short
+      }
+    }
+  });
+});
+
+
         document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.getElementById('menu-toggle');
   const menuList = document.getElementById('menu-list');

@@ -20,25 +20,25 @@
                     </div>
 
                     <div class="menu-nav menu-toggle" id="menu-toggle">
-                        <a href="{{ url_for('dashboard')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+                        <a href="#"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
                     </div>
                     <ul class="nav" id="menu-list">
-                        <li><a href="">Home</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Services</a></li>
-                        <!-- <li><a href="">Sign-in</a></li>
-                        <li><a href="">Services</a></li> -->
-                        <li class="account-menu">
-                             <a href="#">
-                                <i class="fa fa-user"></i>
-                                Michelle Nhengu
-                            </a>
-                            <ul class="dropdown">
-                            <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
-                            <li><a href="#" class="logout">Logout</a></li>
-
+                        <li><a href="#">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('services') }}">Services</a></li>
+                        {% if session.get('user') %}
+                    <li class="account-menu">
+                        <a href="#"><i class="fa fa-user"></i> {{ session['user'] }}</a>
+                        <ul class="dropdown">
+                            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
                         </ul>
-                    </li>
+                            </li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Sign In</a></li>
+                        {% endif %}
+
+                        
                    </ul> 
                 
             </header>
@@ -173,34 +173,39 @@
            
                
                 <div class="about-tech-journal">
-                    <div class="title">
+                   <div class="title"> 
                         <h1 class="h1-1">Tech</h1>
                         <h1 class="h1-2">Journal</h1>
                     </div>
                     <div class="about">
                         <p>You can combine two of these (like end-of-post + footer) for better conversion without being annoying. Want a simple design suggestion or code snippet for one of these placements?</p></div>
-                    <div class="telephone"> 
-                        <img src="" alt="icon">
-                        8278474592</div>
-                    <div class="email">
-                        <img src="" alt="icon">
-                        haswehf@gmail.com</div>
-                    <div class="social-media">
-                        <img src="" alt="icon">
-                        <img src="" alt="icon">
-                        <img src="" alt="icon">
-                    </div>
+                    <div class="telephone">
+                        <i class="fas fa-phone-alt"></i>
+                            8278474592
+                        </div>
+                        <div class="email">
+                            <i class="fas fa-envelope"></i>
+                            haswehf@gmail.com
+                        </div>
+                        <div class="social-media">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+
 
                 </div>
 
                 <div class="quick-links">
                     <h3>Quick Links</h3>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
-                    <a href="#">topics</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Advertise</a>
+                    <a href="{{ url_for('upcoming_events')}}">Crunchboard Events</a>
+                    <a href="#">Terms of service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">RSS Terms os Use</a>
                     
                     
                 </div>

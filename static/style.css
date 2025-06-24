@@ -12,6 +12,7 @@ body {
   gap: 50px;
   display: flex;
   flex-direction: column;
+ 
 }
 
 header {
@@ -345,6 +346,7 @@ main, section {
 
 .events {
   display: flex;
+  flex: 1;
   flex-direction: column;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -458,7 +460,9 @@ main, section {
   margin-left: 15px;
   color: #ddd;
 }
-
+.quick-links a:hover{
+   color: #007bff;
+}
 .user-input-container {
   display: flex;
   gap: 10px;
@@ -492,6 +496,22 @@ main, section {
 footer a {
   color: #ddd;
 }
+.telephone i, .email i, .social-media i {
+    color: var(--icon-color, #d1d0d0f7); /* Adapts to theme variable */
+    margin-right: 8px;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.social-media i {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.social-media i:hover {
+    color: #007bff; /* On hover */
+}
+
 
 @media only screen and (max-width: 750px) {
   header {

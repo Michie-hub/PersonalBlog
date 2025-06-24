@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import uuid
 import os 
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename 
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -18,6 +19,26 @@ migrate = Migrate(app, db)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
  
+users = {
+    "michelle": generate_password_hash("password123")
+}
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username in users and check_password_hash(users[username], password):
+            session['user'] = username
+            return redirect(url_for('dashboard'))
+        else:
+            flash("Invalid credentials")
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -71,7 +92,9 @@ def index():
 def dashboard():
     posts = Post.query.order_by(Post.date.desc()).all()
     events = Event.query.order_by(Event.date.asc()).all()
-    return render_template('dashboard.html', posts=posts, events=events)
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('dashboard.html', posts=posts, events=events, user=session['user'])
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_post():
@@ -134,7 +157,10 @@ def view_post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('view_post.html', post=post)
 
-    
+@app.route('/upcoming_events')
+def upcoming_events():
+    upcoming_events = Event.query.order_by(Event.date.asc()).all()
+    return render_template('upcoming_events.html', upcoming_events=upcoming_events)
 
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
@@ -193,7 +219,13 @@ def view_event(event_id):
     event = Event.query.get_or_404(event_id)
     return render_template('view_event.html', event=event)
 
-
+@app.route('/about')
+def about():
+    return render_template('about.html')
+    
+@app.route('/services')
+def services():
+    return render_template('services.html')
 
 if __name__ == '__main__':
     #with app.app_context():
