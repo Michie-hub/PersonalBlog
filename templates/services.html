@@ -3,9 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <title>Our Services</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/e6fd116ded.js" crossorigin="anonymous"></script>
 </head>
-<body>
-  <h1>Our Services</h1>
+<body >
+
+    <header>
+      <div class="title">
+          <h1 class="h1-1">Tech</h1>
+          <h1 class="h1-2">Journal</h1>
+      </div>
+
+      <div class="menu-nav menu-toggle" id="menu-toggle">
+          <a href="#"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+      </div>
+      <ul class="nav" id="menu-list">
+          <li><a href="{{ url_for('index')}}">Home</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+        
+            </ul> 
+        
+    </header>
+<div style="margin-left: 40px;">
+  <h1 >Our Services</h1>
   <ul>
     <li>Tech news and insights</li>
     <li>Developer tutorials</li>
@@ -13,5 +36,6 @@
     <li>Job and internship listings</li>
   </ul>
   <a href="{{ url_for('index') }}">← Back to Home</a>
+  </div>
 </body>
 </html>

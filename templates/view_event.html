@@ -11,18 +11,21 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 0px;
       background: #f9f9f9;
       color: #333;
+
     }
 
     .event-container {
       max-width: 700px;
       margin: auto;
-      background: #fff;
+      background: #f2f9d9ab;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-top: 40px;
+      
     }
 
     h1 {
@@ -30,37 +33,32 @@
       font-size: 2rem;
     }
 
-    .event-date {
-      font-size: 0.95rem;
-      color: #777;
-      margin-bottom: 20px;
+    .register-button {
+      display: inline-block;
+     background-color: #078948;
+  padding: 12px;
+  margin-top: 10px;
+  border: solid 1px #078948;
+  border-radius: 20px;
+  color: rgb(250, 251, 237);
+      
     }
 
     .event-description {
       line-height: 1.6;
       margin-bottom: 30px;
     }
-    .register-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-
+    
     .register-button:hover {
-      background-color: #0056b3;
+      background-color: #54a666a1;
+      cursor: pointer;
     }
 
     .back-link {
       display: inline-block;
       margin-top: 20px;
       text-decoration: none;
-      color: #007BFF;
+      color: #07a9c6;
     }
 
     .back-link:hover {
@@ -76,10 +74,18 @@
   justify-content: center;
   align-items: center;
 }
-
+.modal button {
+  display: inline-block;
+     background-color: #078948;
+  padding: 8px;
+  margin-top: 10px;
+  border: solid 1px #078948;
+  color: rgb(250, 251, 237);
+      
+}
 .modal-content {
-  background: white;
-  padding: 20px;
+  background: #f2f9d9;
+  padding: 8px;
   border-radius: 10px;
   max-width: 400px;
   width: 90%;
@@ -88,8 +94,8 @@
 }
 
 .close {
-  position: absolute;
   float: right;
+  top: 5px;
   font-size: 24px;
   cursor: pointer;
 }
@@ -114,10 +120,23 @@
   object-fit: contain;
 }
 
-
+.event-container {
+        padding: 40px;
+      }
+ .event-contents {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+ }    
+ .date-location {
+  display: flex;
+  flex-direction: row;
+  gap:1rem;
+  justify-content: center;
+ } 
     @media (max-width: 1000px) {
       .event-container {
-        padding: 20px;
+        padding: 40px;
       }
 
       h1 {
@@ -127,19 +146,24 @@
   </style>
 </head>
 <body>
-   <div class="landing-page">
-       
-            <header>
-                    
+  
+    <header>
+      <div class="title">
+          <h1 class="h1-1">Tech</h1>
+          <h1 class="h1-2">Journal</h1>
+      </div>
 
-                    <div class="menu-nav menu-toggle" id="menu-toggle">
-                        <a href="{{ url_for('dashboard')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
-                    </div>
+      <div class="menu-nav menu-toggle" id="menu-toggle">
+          <a href="#"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+      </div>
+      <ul class="nav" id="menu-list">
+          <li><a href="{{ url_for('index')}}">Home</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('services') }}">Services</a></li>
+            </ul> 
+        
+    </header>
                     
-                       
-                
-            </header>
-            </div>
   <div class="event-container">
     <div class="presented-by">
   <span>Presented by:</span>
@@ -147,16 +171,20 @@
     <img src="{{ event.logo_url }}" alt="Logo" class="logo-small">
   {% endif %}
 </div>
-
+  <div class="event-contents">
     <h1>{{ event.title }}</h1>
-    <p class="event-date">{{ event.date.strftime('%B %d, %Y') }}</p>
+    <div class="date-location">
+      <p class="event-date"><i class="fa fa-calendar" aria-hidden="true"></i>
+{{ event.date.strftime('%B %d, %Y') }}</p>
+    <p><strong></strong>|  <i class="fa fa-map-marker" aria-hidden="true"></i>
+  {{ event.location or "To be announced" }}</p></div>
     <div class="event-description">
       {{ event.description }}
     </div>
-    <p><strong>Location:</strong> {{ event.location or "To be announced" }}</p>
+    
 
       <!-- Register Button -->
-<button id="openModalBtn" class="register-button">Register Now</button>
+<button id="openModalBtn" class="register-button">Register Now</button></div>
 
 <!-- Modal Structure -->
 <div id="registerModal" class="modal">
@@ -170,11 +198,11 @@
     </form>
   </div>
 </div>
-
+            
 
     <a href="{{ url_for('index') }}" class="back-link">← Back</a>
-  </div>
   
+
    <script>
     document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("registerModal");

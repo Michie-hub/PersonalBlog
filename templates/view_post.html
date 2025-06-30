@@ -10,22 +10,22 @@
     <script src="https://kit.fontawesome.com/e6fd116ded.js" crossorigin="anonymous"></script>
 </head>
 <body>
-     <header>
-                    
+    <header>
+      <div class="title">
+          <h1 class="h1-1">Tech</h1>
+          <h1 class="h1-2">Journal</h1>
+      </div>
 
-                    <div class="menu-nav menu-toggle" id="menu-toggle">
-                        <a href="{{ url_for('index')}}"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
-                    </div>
-                    <ul class="nav" id="menu-list">
-                        <li><a href="{{ url_for('index')}}">Home</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Services</a></li>
-                        
-                        </ul>
-                    </li>
-                   </ul> 
-                
-            </header>
+      <div class="menu-nav menu-toggle" id="menu-toggle">
+          <a href="#"><img src="{{url_for('static', filename='images/menu-icon.png') }}" alt="menu"></a>
+      </div>
+      <ul class="nav" id="menu-list">
+          <li><a href="{{ url_for('index')}}">Home</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('services') }}">Services</a></li>
+            </ul> 
+        
+    </header>
  <div class="landing-page"> 
                
     {% if ad_exists %}

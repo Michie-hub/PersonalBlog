@@ -512,57 +512,24 @@ footer a {
     color: #007bff; /* On hover */
 }
 
-
-@media only screen and (max-width: 750px) {
-  header {
-    position: relative;
-    z-index: 1000;
-  }
-  header ul {
-    width: 100%;
-    background: #0097b2;
-    display: none;
-  }
-  header ul.show {
-    display: block;
-  }
-  header ul li {
-    width: 100%;
-  }
-  header ul li ul {
-    position: static;
-    width: 100%;
-    display: block;
-  }
-
-  header ul li ul li a {
-    padding: 8px;
-    background: #0097b2;
-    color: white;
-    padding-left: 10px;
-  }
-  header ul li ul li a:hover {
-    background: #56565641;
-  }
-  header ul li ul li a.logout {
-    color: red;
-  }
-
-  header .menu-toggle {
-    display: block;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 1.9rem;
-  }
-}
-
 .event-carousel-wrapper {
   overflow: hidden;
-  max-width: 100%;
-  margin: auto;
+  max-width: 95%;
+  margin:auto;
+  margin-bottom: 20px;
 }
-
+.event-card button {
+  background-color: #078948;
+  padding: 8px;
+  margin-top: 10px;
+  border: solid 1px #078948;
+  border-radius: 20px;
+  color: rgb(250, 251, 237);
+}
+.event-card button:hover {
+  cursor: pointer;
+  background-color: #0ab45fa3;
+}
 .event-carousel {
   display: flex;
   overflow-x: scroll;
@@ -614,6 +581,51 @@ footer a {
   background-color: #333;
 }
 
+@media only screen and (max-width: 750px) {
+  header {
+    position: relative;
+    z-index: 1000;
+  }
+  header ul {
+    width: 100%;
+    background: #0097b2;
+    display: none;
+  }
+  header ul.show {
+    display: block;
+  }
+  header ul li {
+    width: 100%;
+  }
+  header ul li ul {
+    position: static;
+    width: 100%;
+    display: block;
+  }
+
+  header ul li ul li a {
+    padding: 8px;
+    background: #0097b2;
+    color: white;
+    padding-left: 10px;
+  }
+  header ul li ul li a:hover {
+    background: #56565641;
+  }
+  header ul li ul li a.logout {
+    color: red;
+  }
+
+  header .menu-toggle {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 1.9rem;
+  }
+
+
+
 @media (max-width: 600px) {
   .event-card h4 {
     font-size: 1rem;
@@ -625,4 +637,5 @@ footer a {
     font-size: 0.9rem;
     padding: 8px 12px;
   }
+}
 }

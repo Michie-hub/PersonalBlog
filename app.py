@@ -58,7 +58,9 @@ class Event(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     image_url = db.Column(db.String(255))  # Main banner
     logo_url = db.Column(db.String(255))   # Company logo (new)
-    location = db.Column(db.String(150)) 
+    location = db.Column(db.String(150))
+
+
 
 @app.route('/')
 def index():
@@ -226,6 +228,8 @@ def about():
 @app.route('/services')
 def services():
     return render_template('services.html')
+
+
 
 if __name__ == '__main__':
     #with app.app_context():
